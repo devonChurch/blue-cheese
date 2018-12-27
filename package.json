@@ -4,15 +4,26 @@
   "description": "AWS PostgreSQL POC",
   "main": "index.js",
   "dependencies": {
+    "@types/jest": "^23.3.10",
+    "@types/node": "^10.12.18",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
     "pg": "^7.7.1",
-    "serverless": "^1.35.0"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-scripts": "2.1.2",
+    "serverless": "^1.35.0",
+    "typescript": "^3.2.2"
   },
   "devDependencies": {
     "serverless-offline": "^3.31.3"
   },
   "scripts": {
-    "start": "serverless offline start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "serverless offline start",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -23,5 +34,14 @@
   "bugs": {
     "url": "https://github.com/devonChurch/blue-cheese/issues"
   },
-  "homepage": "https://github.com/devonChurch/blue-cheese#readme"
+  "homepage": "https://github.com/devonChurch/blue-cheese#readme",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

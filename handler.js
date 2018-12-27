@@ -31,3 +31,16 @@ module.exports.search = async (event, context) => {
 
   return { statusCode, body };
 };
+
+/**
+CREATE TABLE food(
+    id SERIAL PRIMARY KEY,
+    category VARCHAR NOT NULL,
+    description VARCHAR NOT NULL,
+    href VARCHAR NOT NULL,
+    icon VARCHAR NOT NULL,
+    title VARCHAR NOT NULL
+)
+
+SELECT * FROM food
+*/
