@@ -1,10 +1,16 @@
-import React from "react";
+import React, { SFC } from "react";
 import { Input, Button, Layout } from "antd";
+import { IHandleModalOpen, IHandleSearchInput } from "./types";
 
 const { Search } = Input;
 const { Header: AntdHeader } = Layout;
 
-const Header = ({ handleSearchInput, handleModalOpen }) => (
+interface IHeader {
+  handleSearchInput: IHandleSearchInput;
+  handleModalOpen: IHandleModalOpen;
+}
+
+const Header: SFC<IHeader> = ({ handleSearchInput, handleModalOpen }) => (
   <AntdHeader>
     <div
       style={{

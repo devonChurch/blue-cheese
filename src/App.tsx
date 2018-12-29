@@ -1,9 +1,26 @@
 import React, { Component } from "react";
 import { Layout } from "antd";
+import {
+  IFood,
+  IHandleModalOpen,
+  IHandleModalClose,
+  IHandleSearchInput,
+  IHandleCreateFood
+} from "./types";
 import Section from "./Section";
 import Food from "./Food";
 import Modal from "./Modal";
 import Header from "./Header";
+
+interface IProps {}
+
+interface IState {
+  isModalOpen: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  searchValue: string;
+  items: IFood[];
+}
 
 const resetModalFormState = () => ({
   isModalOpen: false
@@ -13,30 +30,47 @@ const resetSearchBarState = () => ({
   searchValue: ""
 });
 
-class App extends Component {
-  state = {
+const resetFetchState = () => ({
+  isLoading: false,
+  isError: false,
+  items: []
+});
+
+class App extends Component<IProps, IState> {
+  state: IState = {
     ...resetSearchBarState(),
-    ...resetModalFormState()
+    ...resetModalFormState(),
+    ...resetFetchState()
   };
 
-  handleModalOpen = () => {
+  handleModalOpen: IHandleModalOpen = () => {
     this.setState(() => ({
       ...resetModalFormState(),
       isModalOpen: true
     }));
   };
 
-  handleModalClose = () => {
+  handleModalClose: IHandleModalClose = () => {
     this.setState(() => ({ isModalOpen: false }));
   };
 
-  handleSearchInput = value => {
-    this.setState(() => ({ searchValue: value }));
+  handleSearchInput: IHandleSearchInput = (searchValue = "") => {
+    this.setState(() => ({ searchValue }));
+  };
+
+  handleCreateFood: IHandleCreateFood = item => {
+    // axios...
   };
 
   render() {
-    const { handleSearchInput, handleModalOpen, handleModalClose } = this;
-    const { searchValue, isModalOpen } = this.state;
+    const {
+      handleSearchInput,
+      handleCreateFood,
+      handleModalOpen,
+      handleModalClose
+    } = this;
+    const { searchValue, isModalOpen, isLoading, isError, items } = this.state;
+    const hasItems = Boolean(items && items.length);
     return (
       <Layout style={{ minHeight: "100vh" }}>
         {/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -56,29 +90,16 @@ class App extends Component {
           The query need "some" kind of content e.g a single space otherwise
           the GraphQL will error out and not recover (as am ID is required).
                                                                               */}
-        <Query
-          query={GET_ALL_VEGETABLES}
-          variables={{ title: searchValue || " " }}
+        <Section
+          isLoading={isLoading}
+          isError={isError}
+          isEmpty={!isError && !hasItems}
+          isSuccess={!isError && hasItems}
         >
-          {({ loading, error, data = {} }) => {
-            const items =
-              (data.listFoodItems && data.listFoodItems.items) || [];
-            const hasItems = Boolean(items.length);
-
-            return (
-              <Section
-                isLoading={loading}
-                isError={error}
-                isEmpty={!error && !hasItems}
-                isSuccess={!error && hasItems}
-              >
-                {items.map(({ id, ...item }) => (
-                  <Food {...item} key={id} />
-                ))}
-              </Section>
-            );
-          }}
-        </Query>
+          {items.map(item => (
+            <Food {...item} key={item.id} />
+          ))}
+        </Section>
 
         {/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                           _        _ 
@@ -86,17 +107,13 @@ class App extends Component {
           | '  \ / _ \/ _` |/ _` || |
           |_|_|_|\___/\__,_|\__,_||_|  
                                                                               */}
-        <Mutation mutation={CREATE_FOOD}>
-          {(handleCreateFood, mutationParams) => (
-            <Modal
-              {...{
-                isModalOpen,
-                handleCreateFood,
-                handleModalClose
-              }}
-            />
-          )}
-        </Mutation>
+        <Modal
+          {...{
+            isModalOpen,
+            handleCreateFood,
+            handleModalClose
+          }}
+        />
       </Layout>
     );
   }

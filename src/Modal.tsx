@@ -1,20 +1,46 @@
-import React, { Component } from "react";
+import React, { Component, createRef, RefObject, FormEvent } from "react";
 import ReactDOM from "react-dom";
 import { Form, Input, Radio, Modal as AntdModal } from "antd";
+import {
+  IFoodNew,
+  IHandleModalOpen,
+  IHandleModalClose,
+  IHandleSearchInput,
+  IHandleCreateFood
+} from "./types";
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 
-class Modal extends Component {
-  $form = React.createRef();
+interface IProps {
+  isModalOpen: boolean;
+  handleModalClose: IHandleModalClose;
+  handleCreateFood: IHandleCreateFood;
+}
 
-  handleModalSubmit = async event => {
+interface IState {}
+
+interface IFormKeyValues extends IFoodNew {
+  [key: string]: any;
+}
+
+class Modal extends Component<IProps, IState> {
+  formRef: RefObject<HTMLFormElement> = createRef();
+
+  handleModalSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    if (!this.formRef.current) return;
     const { handleModalClose, handleCreateFood } = this.props;
-    const $form = ReactDOM.findDOMNode(this.$form.current);
+    const $form = ReactDOM.findDOMNode(this.formRef.current) as HTMLFormElement;
     const formRawData = new FormData($form);
-    const formKeyValues = {};
+    const formKeyValues: IFormKeyValues = {
+      title: "",
+      category: "",
+      description: "",
+      href: "",
+      icon: ""
+    };
 
     for (let data of formRawData.entries()) {
       const [key, value = ""] = data;
@@ -23,13 +49,7 @@ class Modal extends Component {
 
     formKeyValues.title = formKeyValues.title.toLowerCase();
 
-    handleCreateFood({
-      variables: formKeyValues,
-      optimisticResponse: {
-        __typename: "Mutation",
-        createFoodItem: formKeyValues
-      }
-    });
+    handleCreateFood(formKeyValues);
     handleModalClose();
     Object.keys(formKeyValues).forEach(key => formRawData.set(key, ""));
     event.preventDefault();
@@ -45,7 +65,7 @@ class Modal extends Component {
         onOk={this.handleModalSubmit}
         onCancel={handleModalClose}
       >
-        <Form ref={this.$form} onSubmit={this.handleModalSubmit}>
+        <Form ref={this.formRef} onSubmit={this.handleModalSubmit}>
           <FormItem label="Title">
             <Input name="title" />
           </FormItem>

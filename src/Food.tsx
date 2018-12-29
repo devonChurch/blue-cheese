@@ -1,8 +1,9 @@
-import React from "react";
+import React, { SFC } from "react";
 import { Card, Button, Tag } from "antd";
 import upperFirst from "lodash.upperfirst";
+import { IFood } from "./types";
 
-const Food = ({ title, category, description, href, icon }) => (
+const Food: SFC<IFood> = ({ title, category, description, href, icon }) => (
   <Card
     title={`${icon} ${upperFirst(title)}`}
     style={{ marginBottom: "20px", maxWidth: "500px" }}

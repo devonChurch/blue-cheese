@@ -1,9 +1,22 @@
-import React from "react";
+import React, { SFC } from "react";
 import { Col, Row, Layout, Spin, Alert } from "antd";
 
 const { Content } = Layout;
 
-const Section = ({ isLoading, isError, isEmpty, isSuccess, children }) => (
+interface ISection {
+  isLoading: boolean;
+  isError: boolean;
+  isEmpty: boolean;
+  isSuccess: boolean;
+}
+
+const Section: SFC<ISection> = ({
+  isLoading,
+  isError,
+  isEmpty,
+  isSuccess,
+  children
+}) => (
   <Content>
     <section
       style={{ maxWidth: "960px", margin: "50px auto", padding: "0 50px" }}
