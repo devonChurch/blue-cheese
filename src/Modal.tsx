@@ -27,7 +27,7 @@ interface IFormKeyValues extends IFoodNew {
 }
 
 class Modal extends Component<IProps, IState> {
-  formRef: RefObject<HTMLFormElement> = createRef();
+  formRef: RefObject<Form> = createRef();
 
   handleModalSubmit = async (event: FormEvent<HTMLFormElement>) => {
     if (!this.formRef.current) return;
