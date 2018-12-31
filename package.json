@@ -18,6 +18,7 @@
     "typescript": "^3.2.2"
   },
   "devDependencies": {
+    "@types/lodash.upperfirst": "^4.3.4",
     "serverless-offline": "^3.31.3"
   },
   "scripts": {
