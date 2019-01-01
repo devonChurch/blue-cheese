@@ -64,4 +64,41 @@ CREATE TABLE food(
 )
 
 SELECT * FROM food
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+Carrot
+https://en.wikipedia.org/wiki/Carrot
+🥕
+The carrot is a root vegetable, usually orange in colour, though purple, black, red, white, and yellow cultivars exist.
+
+Banana
+https://en.wikipedia.org/wiki/Banana
+🍌
+A banana is an edible fruit produced by several kinds of large herbaceous flowering plants in the genus Musa.
+
+Corn
+https://en.wikipedia.org/wiki/Maize
+🌽
+Maize has become a staple food in many parts of the world, with the total production of maize surpassing that of wheat or rice.
+
+Kiwifruit
+https://en.wikipedia.org/wiki/Kiwifruit
+🥝
+Kiwifruit or Chinese gooseberry is the edible berry of several species of woody vines in the genus Actinidia.
+
+Apple
+https://en.wikipedia.org/wiki/Apple
+🍎
+An apple is a sweet, edible fruit produced by an apple tree and are the most widely grown species in the genus Malus.
+
+Pineapple
+https://en.wikipedia.org/wiki/Pineapple
+🍍
+The pineapple is a tropical plant with an edible multiple fruit consisting of coalesced berries, also called pineapples.
+
+Potato
+https://en.wikipedia.org/wiki/Potato
+🥔
+The potato is a staple food in many parts of the world and an integral part of much of the world's food supply.
 */
