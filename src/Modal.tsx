@@ -1,13 +1,7 @@
 import React, { Component, createRef, RefObject, FormEvent } from "react";
 import ReactDOM from "react-dom";
 import { Form, Input, Radio, Modal as AntdModal } from "antd";
-import {
-  IFoodNew,
-  IHandleModalOpen,
-  IHandleModalClose,
-  IHandleSearchInput,
-  IHandleCreateFood
-} from "./types";
+import { IFoodNew, IHandleModalClose, IHandleCreateFood } from "./types";
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;

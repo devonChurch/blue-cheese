@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Layout } from "antd";
+import axios from "axios";
 import {
   IFood,
   IHandleModalOpen,
@@ -11,6 +12,8 @@ import Section from "./Section";
 import Food from "./Food";
 import Modal from "./Modal";
 import Header from "./Header";
+
+const endpoint = process.env.REACT_APP_ENDPOINT;
 
 interface IProps {}
 
@@ -54,12 +57,64 @@ class App extends Component<IProps, IState> {
     this.setState(() => ({ isModalOpen: false }));
   };
 
-  handleSearchInput: IHandleSearchInput = (searchValue = "") => {
-    this.setState(() => ({ searchValue }));
+  handleSearchInput: IHandleSearchInput = async (
+    searchValue = ""
+  ): Promise<void> => {
+    if (!searchValue) return Promise.resolve();
+
+    this.setState(prevState => ({
+      ...prevState,
+      searchValue,
+      isLoading: true,
+      isError: false
+    }));
+
+    try {
+      const response = await axios({
+        method: "get",
+        url: `${endpoint}/api/search/${searchValue}`
+      });
+
+      this.setState(prevState => ({
+        ...prevState,
+        isLoading: false,
+        items: response.data
+      }));
+    } catch (error) {
+      this.setState(prevState => ({
+        ...prevState,
+        isLoading: false,
+        isError: true,
+        items: []
+      }));
+    }
   };
 
-  handleCreateFood: IHandleCreateFood = item => {
-    // axios...
+  handleCreateFood: IHandleCreateFood = async (item): Promise<void> => {
+    this.setState(prevState => ({
+      ...prevState,
+      isLoading: true,
+      isError: false
+    }));
+
+    try {
+      await axios({
+        method: "post",
+        url: `${endpoint}/api/create`,
+        data: item
+      });
+
+      this.setState(prevState => ({
+        ...prevState,
+        isLoading: false
+      }));
+    } catch (error) {
+      this.setState(prevState => ({
+        ...prevState,
+        isLoading: false,
+        isError: true
+      }));
+    }
   };
 
   render() {
